@@ -1,5 +1,5 @@
 {
-  "name": "mqtt-to-http",
+  "name": "mqtt-to-http-flow",
   "type": "flogo:app",
   "version": "0.0.1",
   "description": "",
@@ -11,18 +11,17 @@
       "settings": {
         "broker": "tcp://localhost:1883",
         "id": "flogo",
-        "user": null,
-        "password": null,
-        "store": null,
-        "topic": null,
-        "qos": null,
+        "user": "",
+        "password": "",
+        "store": "",
+        "qos": "0",
         "cleansess": "false"
       },
       "id": "receive_mqtt_message",
       "handlers": [
         {
           "settings": {
-            "topic": null
+            "topic": "put"
           },
           "actionId": "mqtt_to_http"
         }
@@ -34,6 +33,7 @@
       "name": "mqtt-to-http",
       "data": {
         "flow": {
+          "explicitReply": true,
           "type": 1,
           "attributes": [],
           "rootTask": {
@@ -56,7 +56,7 @@
                   },
                   {
                     "name": "uri",
-                    "value": "https://qa-integration.sandbox.cloud.tibcoapps.com:443/5hxoayld3oxvdmn7pkqtcneq2ojbmetv/case",
+                    "value": "https://qa-integration.sandbox.cloud.tibcoapps.com:443/5hxoayld3oxvdmn7pkqtcneq2ojbmetv/case/:caseid",
                     "required": true,
                     "type": "string"
                   },
@@ -79,6 +79,13 @@
                     "value": null,
                     "required": false,
                     "type": "any"
+                  }
+                ],
+                "inputMappings": [
+                  {
+                    "type": 1,
+                    "value": "{T.pathParams}.caseid",
+                    "mapTo": "pathParams.caseid"
                   }
                 ]
               },
@@ -109,6 +116,40 @@
                     "type": "boolean"
                   }
                 ]
+              },
+              {
+                "id": 4,
+                "name": "Reply To Trigger",
+                "description": "Simple Reply Activity",
+                "type": 1,
+                "activityType": "tibco-reply",
+                "activityRef": "github.com/TIBCOSoftware/flogo-contrib/activity/reply",
+                "attributes": [
+                  {
+                    "name": "code",
+                    "value": 200,
+                    "required": true,
+                    "type": "integer"
+                  },
+                  {
+                    "name": "data",
+                    "value": null,
+                    "required": true,
+                    "type": "any"
+                  }
+                ],
+                "inputMappings": [
+                  {
+                    "type": 1,
+                    "value": "${activity.2.result}",
+                    "mapTo": "data"
+                  },
+                  {
+                    "type": 1,
+                    "value": "${activity.2.status}",
+                    "mapTo": "code"
+                  }
+                ]
               }
             ],
             "links": [
@@ -116,6 +157,12 @@
                 "id": 1,
                 "from": 2,
                 "to": 3,
+                "type": 0
+              },
+              {
+                "id": 1,
+                "from": 3,
+                "to": 4,
                 "type": 0
               }
             ],
