@@ -1,0 +1,130 @@
+{
+  "name": "mqtt-to-http",
+  "type": "flogo:app",
+  "version": "0.0.1",
+  "description": "",
+  "triggers": [
+    {
+      "name": "Receive MQTT Message",
+      "ref": "github.com/TIBCOSoftware/flogo-contrib/trigger/mqtt",
+      "description": "Simple MQTT Trigger",
+      "settings": {
+        "broker": "tcp://localhost:1883",
+        "id": "flogo",
+        "user": null,
+        "password": null,
+        "store": null,
+        "topic": null,
+        "qos": null,
+        "cleansess": "false"
+      },
+      "id": "receive_mqtt_message",
+      "handlers": [
+        {
+          "settings": {
+            "topic": null
+          },
+          "actionId": "mqtt_to_http"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "name": "mqtt-to-http",
+      "data": {
+        "flow": {
+          "type": 1,
+          "attributes": [],
+          "rootTask": {
+            "id": 1,
+            "type": 1,
+            "tasks": [
+              {
+                "id": 2,
+                "name": "Invoke REST Service",
+                "description": "Simple REST Activity",
+                "type": 1,
+                "activityType": "tibco-rest",
+                "activityRef": "github.com/TIBCOSoftware/flogo-contrib/activity/rest",
+                "attributes": [
+                  {
+                    "name": "method",
+                    "value": "POST",
+                    "required": true,
+                    "type": "string"
+                  },
+                  {
+                    "name": "uri",
+                    "value": "https://qa-integration.sandbox.cloud.tibcoapps.com:443/5hxoayld3oxvdmn7pkqtcneq2ojbmetv/case",
+                    "required": true,
+                    "type": "string"
+                  },
+                  {
+                    "name": "pathParams",
+                    "value": {
+                      "caseid": "string"
+                    },
+                    "required": false,
+                    "type": "params"
+                  },
+                  {
+                    "name": "queryParams",
+                    "value": null,
+                    "required": false,
+                    "type": "params"
+                  },
+                  {
+                    "name": "content",
+                    "value": null,
+                    "required": false,
+                    "type": "any"
+                  }
+                ]
+              },
+              {
+                "id": 3,
+                "name": "Log Message",
+                "description": "Simple Log Activity",
+                "type": 1,
+                "activityType": "tibco-log",
+                "activityRef": "github.com/TIBCOSoftware/flogo-contrib/activity/log",
+                "attributes": [
+                  {
+                    "name": "message",
+                    "value": "200 OK",
+                    "required": false,
+                    "type": "string"
+                  },
+                  {
+                    "name": "flowInfo",
+                    "value": "false",
+                    "required": false,
+                    "type": "boolean"
+                  },
+                  {
+                    "name": "addToFlow",
+                    "value": "false",
+                    "required": false,
+                    "type": "boolean"
+                  }
+                ]
+              }
+            ],
+            "links": [
+              {
+                "id": 1,
+                "from": 2,
+                "to": 3,
+                "type": 0
+              }
+            ],
+            "attributes": []
+          }
+        }
+      },
+      "id": "mqtt_to_http",
+      "ref": "github.com/TIBCOSoftware/flogo-contrib/action/flow"
+    }
+  ]
+}
