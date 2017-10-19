@@ -21,7 +21,7 @@
       "handlers": [
         {
           "settings": {
-            "topic": "put"
+            "topic": "get"
           },
           "actionId": "mqtt_to_http"
         }
