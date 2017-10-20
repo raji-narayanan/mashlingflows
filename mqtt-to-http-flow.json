@@ -15,7 +15,9 @@
         "password": "",
         "store": "",
         "qos": "0",
-        "cleansess": "false"
+        "cleansess": "false",
+        "tracer": "zipkin",
+        "tracerEndpoint": "http://localhost:9411/api/v1/spans"
       },
       "id": "receive_mqtt_message",
       "handlers": [
@@ -46,7 +48,7 @@
                 "description": "Simple REST Activity",
                 "type": 1,
                 "activityType": "tibco-rest",
-                "activityRef": "github.com/TIBCOSoftware/flogo-contrib/activity/rest",
+                "activityRef": "github.com/TIBCOSoftware/mashling/ext/flogo/activity/rest",
                 "attributes": [
                   {
                     "name": "method",
@@ -79,6 +81,11 @@
                     "value": null,
                     "required": false,
                     "type": "object"
+                  },
+                  {
+                    "name": "tracing",
+                    "value": null,
+                    "type": "any"
                   }
                 ],
                 "inputMappings": [
@@ -91,6 +98,11 @@
                     "type": 1,
                     "value": "{T.content}",
                     "mapTo": "content"
+                  },
+                  {
+                    "type": 1,
+                    "value": "{T.tracing}",
+                    "mapTo": "tracing"
                   }                ]
               },
               {
@@ -147,11 +159,6 @@
                     "type": 1,
                     "value": "${activity.2.result}",
                     "mapTo": "data"
-                  },
-                  {
-                    "type": 1,
-                    "value": "${activity.2.status}",
-                    "mapTo": "code"
                   }
                 ]
               }
