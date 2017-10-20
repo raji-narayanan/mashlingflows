@@ -56,7 +56,7 @@
                   },
                   {
                     "name": "uri",
-                    "value": "https://qa-integration.sandbox.cloud.tibcoapps.com:443/5hxoayld3oxvdmn7pkqtcneq2ojbmetv/case/:caseid",
+                    "value": "https://integration.cloud.tibcoapps.com/conlxpvs5a3t3lc2jqzpjpj4q7spjzx6/case/:caseid",
                     "required": true,
                     "type": "string"
                   },
