@@ -76,14 +76,9 @@
                   },
                   {
                     "name": "content",
-                    "value": {
-                      "name": "string",
-                      "ph": "string",
-                      "email": "string",
-                      "description": "string"
-                    },
+                    "value": null,
                     "required": false,
-                    "type": "any"
+                    "type": "object"
                   }
                 ],
                 "inputMappings": [
@@ -94,25 +89,9 @@
                   },
                   {
                     "type": 1,
-                    "value": "{T.content}.name",
-                    "mapTo": "content.name"
-                  },
-                  {
-                    "type": 1,
-                    "value": "{T.content}.ph",
-                    "mapTo": "content.ph"
-                  },
-                  {
-                    "type": 1,
-                    "value": "{T.content}.email",
-                    "mapTo": "content.email"
-                  },
-                  {
-                    "type": 1,
-                    "value": "{T.content}.description",
-                    "mapTo": "content.description"
-                  }
-                ]
+                    "value": "{T.content}",
+                    "mapTo": "content"
+                  }                ]
               },
               {
                 "id": 3,
